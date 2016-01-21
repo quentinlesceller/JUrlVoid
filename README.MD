@@ -18,7 +18,7 @@ $ mvn install
 Or simply download the jar file in jar/JUrlVoid.jar.
 
 ### Usage
-Import into your Java project. Here is an example with the google.com.
+Import into your Java project. Here is an example with google.com.
 ```
 JUrlVoid jUrlVoid = new JUrlVoid(apiKey);
 JUrlVoidResult result = jUrlVoid.checkUrl("google.com");
