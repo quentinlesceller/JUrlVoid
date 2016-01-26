@@ -127,20 +127,24 @@ public class ResultParser {
 		}
 
 		NodeList detectionsList = doc.getElementsByTagName("detections");
+		Detections detections;
+		if (detectionsList.getLength() != 0) {
+			Node detectionsNode = detectionsList.item(0);
+			Integer count;
 
-		Node detectionsNode = detectionsList.item(0);
-		Integer count;
-		if (detectionsNode.getNodeType() == Node.ELEMENT_NODE) {
+			if (detectionsNode.getNodeType() == Node.ELEMENT_NODE) {
 
-			Element detectionsElement = (Element) detectionsNode;
-			count = Integer.parseInt(detectionsElement.getElementsByTagName("count").item(0).getTextContent());
+				Element detectionsElement = (Element) detectionsNode;
+				count = Integer.parseInt(detectionsElement.getElementsByTagName("count").item(0).getTextContent());
 
+			} else {
+				count = 0;
+			}
+
+			detections = new Detections(enginesArrayList, count);
 		} else {
-			count = 0;
+			detections = null;
 		}
-
-		Detections detections = new Detections(enginesArrayList, count);
-
 		NodeList responseList = doc.getElementsByTagName("response");
 
 		Node responseNode = responseList.item(0);
