@@ -46,70 +46,74 @@ public class ResultParser {
 		doc.getDocumentElement().normalize();
 
 		NodeList detailsList = doc.getElementsByTagName("details");
-
-		Node detailsNode = detailsList.item(0);
-
 		Details details;
-		if (detailsNode.getNodeType() == Node.ELEMENT_NODE) {
+		if (detailsList.getLength() != 0) {
+			Node detailsNode = detailsList.item(0);
 
-			Element detailsElement = (Element) detailsNode;
-			String host = detailsElement.getElementsByTagName("host").item(0).getTextContent();
+			if (detailsNode.getNodeType() == Node.ELEMENT_NODE) {
 
-			Integer updated = Integer.parseInt(detailsElement.getElementsByTagName("updated").item(0).getTextContent());
+				Element detailsElement = (Element) detailsNode;
+				String host = detailsElement.getElementsByTagName("host").item(0).getTextContent();
 
-			Integer httpResponseCode = Integer
-					.parseInt(detailsElement.getElementsByTagName("http_response_code").item(0).getTextContent());
-			Integer domainAge = Integer
-					.parseInt(detailsElement.getElementsByTagName("domain_age").item(0).getTextContent());
+				Integer updated = Integer
+						.parseInt(detailsElement.getElementsByTagName("updated").item(0).getTextContent());
 
-			Integer googlePageRank = Integer
-					.parseInt(detailsElement.getElementsByTagName("google_page_rank").item(0).getTextContent());
-			Integer alexaRank = Integer
-					.parseInt(detailsElement.getElementsByTagName("alexa_rank").item(0).getTextContent());
-			Double connectTime = Double
-					.parseDouble(detailsElement.getElementsByTagName("connect_time").item(0).getTextContent());
-			Integer headerSize = Integer
-					.parseInt(detailsElement.getElementsByTagName("header_size").item(0).getTextContent());
+				Integer httpResponseCode = Integer
+						.parseInt(detailsElement.getElementsByTagName("http_response_code").item(0).getTextContent());
+				Integer domainAge = Integer
+						.parseInt(detailsElement.getElementsByTagName("domain_age").item(0).getTextContent());
 
-			Integer downloadSize = Integer
-					.parseInt(detailsElement.getElementsByTagName("download_size").item(0).getTextContent());
+				Integer googlePageRank = Integer
+						.parseInt(detailsElement.getElementsByTagName("google_page_rank").item(0).getTextContent());
+				Integer alexaRank = Integer
+						.parseInt(detailsElement.getElementsByTagName("alexa_rank").item(0).getTextContent());
+				Double connectTime = Double
+						.parseDouble(detailsElement.getElementsByTagName("connect_time").item(0).getTextContent());
+				Integer headerSize = Integer
+						.parseInt(detailsElement.getElementsByTagName("header_size").item(0).getTextContent());
 
-			Integer downloadSpeed = Integer
-					.parseInt(detailsElement.getElementsByTagName("speed_download").item(0).getTextContent());
-			String externalUrlRedirect = detailsElement.getElementsByTagName("external_url_redirect").item(0)
-					.getTextContent();
+				Integer downloadSize = Integer
+						.parseInt(detailsElement.getElementsByTagName("download_size").item(0).getTextContent());
 
-			NodeList ipList = doc.getElementsByTagName("ip");
+				Integer downloadSpeed = Integer
+						.parseInt(detailsElement.getElementsByTagName("speed_download").item(0).getTextContent());
+				String externalUrlRedirect = detailsElement.getElementsByTagName("external_url_redirect").item(0)
+						.getTextContent();
 
-			Node ipNode = ipList.item(0);
-			IP ip;
-			if (ipNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element ipElement = (Element) detailsNode;
+				NodeList ipList = doc.getElementsByTagName("ip");
 
-				String address = ipElement.getElementsByTagName("addr").item(0).getTextContent();
-				String hostname = ipElement.getElementsByTagName("hostname").item(0).getTextContent();
-				Integer asn = Integer.parseInt(ipElement.getElementsByTagName("asn").item(0).getTextContent());
-				String asname = ipElement.getElementsByTagName("asname").item(0).getTextContent();
-				String countryCode = ipElement.getElementsByTagName("country_code").item(0).getTextContent();
-				String countryName = ipElement.getElementsByTagName("country_name").item(0).getTextContent();
-				String regionName = ipElement.getElementsByTagName("region_name").item(0).getTextContent();
-				String cityName = ipElement.getElementsByTagName("city_name").item(0).getTextContent();
-				String continentCode = ipElement.getElementsByTagName("continent_code").item(0).getTextContent();
-				String continentName = ipElement.getElementsByTagName("continent_name").item(0).getTextContent();
-				Double latitude = Double
-						.parseDouble(ipElement.getElementsByTagName("latitude").item(0).getTextContent());
-				Double longitude = Double
-						.parseDouble(ipElement.getElementsByTagName("longitude").item(0).getTextContent());
-				ip = new IP(address, hostname, asn, asname, countryCode, countryName, regionName, cityName,
-						continentCode, continentName, latitude, longitude);
+				Node ipNode = ipList.item(0);
+				IP ip;
+				if (ipNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element ipElement = (Element) detailsNode;
+
+					String address = ipElement.getElementsByTagName("addr").item(0).getTextContent();
+					String hostname = ipElement.getElementsByTagName("hostname").item(0).getTextContent();
+					Integer asn = Integer.parseInt(ipElement.getElementsByTagName("asn").item(0).getTextContent());
+					String asname = ipElement.getElementsByTagName("asname").item(0).getTextContent();
+					String countryCode = ipElement.getElementsByTagName("country_code").item(0).getTextContent();
+					String countryName = ipElement.getElementsByTagName("country_name").item(0).getTextContent();
+					String regionName = ipElement.getElementsByTagName("region_name").item(0).getTextContent();
+					String cityName = ipElement.getElementsByTagName("city_name").item(0).getTextContent();
+					String continentCode = ipElement.getElementsByTagName("continent_code").item(0).getTextContent();
+					String continentName = ipElement.getElementsByTagName("continent_name").item(0).getTextContent();
+					Double latitude = Double
+							.parseDouble(ipElement.getElementsByTagName("latitude").item(0).getTextContent());
+					Double longitude = Double
+							.parseDouble(ipElement.getElementsByTagName("longitude").item(0).getTextContent());
+					ip = new IP(address, hostname, asn, asname, countryCode, countryName, regionName, cityName,
+							continentCode, continentName, latitude, longitude);
+				} else {
+					ip = null;
+				}
+				details = new Details(host, updated, httpResponseCode, domainAge, googlePageRank, alexaRank,
+						connectTime, headerSize, downloadSize, downloadSpeed, externalUrlRedirect, ip);
 			} else {
-				ip = null;
+				details = null;
 			}
-			details = new Details(host, updated, httpResponseCode, domainAge, googlePageRank, alexaRank, connectTime,
-					headerSize, downloadSize, downloadSpeed, externalUrlRedirect, ip);
-		} else {
-			details = null;
-		}
+		 } else {
+		 details = null;
+		 }
 
 		NodeList enginesList = doc.getElementsByTagName("engines");
 		ArrayList<String> enginesArrayList = new ArrayList<>();
